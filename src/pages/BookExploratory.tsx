@@ -528,23 +528,26 @@ export default function BookExploratory() {
                 </div>
               </div>
 
-              {/* Show InlineAuth when not logged in, otherwise show Book button */}
-              {!user ? (
-                <InlineAuth />
-              ) : (
-                <button
-                  onClick={handleBookCall}
-                  disabled={!canBook || isSubmitting}
-                  className={`
-                    w-full py-3 rounded-xl font-semibold transition-all
-                    ${canBook && !isSubmitting
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                      : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                    }
-                  `}
-                >
-                  {isSubmitting ? 'Booking...' : 'Book Free Call'}
-                </button>
+              <button
+                onClick={handleBookCall}
+                disabled={!canBook || !user || isSubmitting}
+                className={`
+                  w-full py-3 rounded-xl font-semibold transition-all
+                  ${canBook && user && !isSubmitting
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  }
+                `}
+              >
+                {isSubmitting ? 'Booking...' : 'Book Free Call'}
+              </button>
+
+              {/* Sign In / Create Account form below checkout */}
+              {!user && (
+                <div className="mt-4">
+                  <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to book</p>
+                  <InlineAuth />
+                </div>
               )}
 
               <div className="mt-4 flex items-start space-x-2 text-xs text-gray-500">
@@ -557,42 +560,41 @@ export default function BookExploratory() {
       </div>
 
       {/* Mobile Bottom Sheet */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-40">
-        {!user ? (
-          <div className="space-y-3">
-            <p className="text-sm text-gray-600 text-center">Sign in or create an account to book</p>
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-40 max-h-[70vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-sm text-gray-500">
+              {selectedDate ? format(selectedDate, 'MMM d') : 'Select date'} 
+              {selectedTime ? ` at ${formatTime(selectedTime)}` : ''}
+            </p>
+            <p className="text-xs text-gray-400">{selectedQuestions.length}/3 topics selected</p>
+          </div>
+          <div className="text-right">
+            <span className="text-xl font-bold text-green-600">Free</span>
+            <p className="text-xs text-gray-500">15 min</p>
+          </div>
+        </div>
+        
+        <button
+          onClick={handleBookCall}
+          disabled={!canBook || !user || isSubmitting}
+          className={`
+            w-full py-3 rounded-xl font-semibold transition-all
+            ${canBook && user && !isSubmitting
+              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            }
+          `}
+        >
+          {isSubmitting ? 'Booking...' : 'Book Free Call'}
+        </button>
+
+        {/* Sign In / Create Account form below checkout */}
+        {!user && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to book</p>
             <InlineAuth />
           </div>
-        ) : (
-          <>
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <p className="text-sm text-gray-500">
-                  {selectedDate ? format(selectedDate, 'MMM d') : 'Select date'} 
-                  {selectedTime ? ` at ${formatTime(selectedTime)}` : ''}
-                </p>
-                <p className="text-xs text-gray-400">{selectedQuestions.length}/3 topics selected</p>
-              </div>
-              <div className="text-right">
-                <span className="text-xl font-bold text-green-600">Free</span>
-                <p className="text-xs text-gray-500">15 min</p>
-              </div>
-            </div>
-            
-            <button
-              onClick={handleBookCall}
-              disabled={!canBook || isSubmitting}
-              className={`
-                w-full py-3 rounded-xl font-semibold transition-all
-                ${canBook && !isSubmitting
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                }
-              `}
-            >
-              {isSubmitting ? 'Booking...' : 'Book Free Call'}
-            </button>
-          </>
         )}
       </div>
 

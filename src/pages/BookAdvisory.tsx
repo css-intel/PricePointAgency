@@ -809,35 +809,36 @@ export default function BookAdvisory() {
                   </p>
                 </div>
 
-                {/* Show InlineAuth when not logged in, otherwise show checkout button */}
-                {!user ? (
-                  <InlineAuth />
-                ) : (
-                  <>
-                    <button
-                      onClick={handleCheckout}
-                      disabled={!canCheckout || (isRetainerUser && !retainerStatus.canBookSession)}
-                      className={`
-                        w-full py-4 rounded-xl font-semibold text-lg transition-all
-                        ${(canCheckout && (!isRetainerUser || retainerStatus.canBookSession))
-                          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-200'
-                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        }
-                      `}
-                    >
-                      {isRetainerUser
-                        ? 'Confirm Booking'
-                        : `Continue to Payment • ${formatPrice(sessionPrice)}`
-                      }
-                    </button>
+                <button
+                  onClick={handleCheckout}
+                  disabled={!canCheckout || !user || (isRetainerUser && !retainerStatus.canBookSession)}
+                  className={`
+                    w-full py-4 rounded-xl font-semibold text-lg transition-all
+                    ${(canCheckout && user && (!isRetainerUser || retainerStatus.canBookSession))
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-200'
+                      : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    }
+                  `}
+                >
+                  {isRetainerUser
+                    ? 'Confirm Booking'
+                    : `Continue to Payment • ${formatPrice(sessionPrice)}`
+                  }
+                </button>
 
-                    <p className="text-xs text-gray-500 text-center mt-3">
-                      {isRetainerUser 
-                        ? "Session will be deducted from your retainer"
-                        : "Secure payment via Stripe"
-                      }
-                    </p>
-                  </>
+                <p className="text-xs text-gray-500 text-center mt-3">
+                  {isRetainerUser 
+                    ? "Session will be deducted from your retainer"
+                    : "Secure payment via Stripe"
+                  }
+                </p>
+
+                {/* Sign In / Create Account form below checkout */}
+                {!user && (
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to continue</p>
+                    <InlineAuth />
+                  </div>
                 )}
               </div>
             </div>
@@ -938,26 +939,29 @@ export default function BookAdvisory() {
           </div>
         </div>
         
-        {/* Show InlineAuth when not logged in, otherwise show checkout button */}
-        {!user ? (
-          <InlineAuth />
-        ) : (
-          <button
-            onClick={handleCheckout}
-            disabled={!canCheckout || (isRetainerUser && !retainerStatus.canBookSession)}
-            className={`
-              w-full py-3 rounded-xl font-semibold transition-all
-              ${(canCheckout && (!isRetainerUser || retainerStatus.canBookSession))
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-              }
-            `}
-          >
-            {isRetainerUser 
-              ? 'Confirm Booking' 
-              : `Pay ${formatPrice(sessionPrice)}`
+        <button
+          onClick={handleCheckout}
+          disabled={!canCheckout || !user || (isRetainerUser && !retainerStatus.canBookSession)}
+          className={`
+            w-full py-3 rounded-xl font-semibold transition-all
+            ${(canCheckout && user && (!isRetainerUser || retainerStatus.canBookSession))
+              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }
-          </button>
+          `}
+        >
+          {isRetainerUser 
+            ? 'Confirm Booking' 
+            : `Pay ${formatPrice(sessionPrice)}`
+          }
+        </button>
+
+        {/* Sign In / Create Account form below checkout */}
+        {!user && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to continue</p>
+            <InlineAuth />
+          </div>
         )}
       </div>
 
