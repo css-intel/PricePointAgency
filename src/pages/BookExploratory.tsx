@@ -544,8 +544,7 @@ export default function BookExploratory() {
 
               {/* Sign In / Create Account form below checkout */}
               {!user && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to book</p>
+                <div className="mt-6 pt-6 border-t border-gray-200">
                   <InlineAuth />
                 </div>
               )}
@@ -591,8 +590,7 @@ export default function BookExploratory() {
 
         {/* Sign In / Create Account form below checkout */}
         {!user && (
-          <div className="mt-4">
-            <p className="text-sm text-gray-600 text-center mb-3">Sign in or create an account to book</p>
+          <div className="mt-4 pt-4 border-t border-gray-200">
             <InlineAuth />
           </div>
         )}
