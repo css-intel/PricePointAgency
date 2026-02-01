@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import BookAdvisory from './pages/BookAdvisory'
 import BookExploratory from './pages/BookExploratory'
+import BookConsultation from './pages/BookConsultation'
 import Chat from './pages/Chat'
 import Pricing from './pages/Pricing'
 import Login from './pages/Login'
@@ -17,7 +18,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="book" element={<BookAdvisory />} />
+          <Route path="book" element={<BookConsultation />} />
+          <Route path="book-advisory" element={<BookAdvisory />} />
           <Route path="book-exploratory" element={<BookExploratory />} />
           <Route path="chat" element={<Chat />} />
           <Route path="pricing" element={<Pricing />} />
